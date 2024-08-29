@@ -16,6 +16,7 @@
 //PODE SER FEITO UTILIZANDO LISTA
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -24,6 +25,10 @@ int main()
     int opcao;
     double quantidade_Saque=0, saldo = 0, quantidade_Deposito =0;
     double quantidade_Saque_Atualizado = 0, quantidade_Deposito_Atualizado = 0;
+
+    //Registro de ação
+    std::vector<double> listaDeSaque;
+    std::vector<double> listaDeDeposito;
 
     cout << "Bem-vindo ao sistema financeiro!!";
 
@@ -45,6 +50,8 @@ int main()
                 cin >> quantidade_Saque;
                 saldo -= quantidade_Saque;
                 quantidade_Saque_Atualizado += quantidade_Saque;
+
+                listaDeSaque.push_back(quantidade_Saque);
             }
         }
         else if (opcao == 2)
@@ -53,13 +60,31 @@ int main()
             cin >> quantidade_Deposito;
             saldo += quantidade_Deposito;
             quantidade_Deposito_Atualizado += quantidade_Deposito;
+
+            listaDeDeposito.push_back(quantidade_Deposito);
         }
         else if (opcao == 3)
         {
             system("clear||cls");
+            //SAQUE
+            cout << "Extrato de Saques:" << endl;
+            for (size_t i = 0; i < listaDeSaque.size(); ++i)
+            {
+                cout << "Saque [" << i << "] = " << listaDeSaque[i] << " RS" << endl;
+            }
             cout << "Foi retirado " << quantidade_Saque_Atualizado << "RS da conta!" << endl;
+            
+            //DEPOSITO
+            cout << "Extrato de Depósitos:" << endl;
+            for (size_t i = 0; i < listaDeDeposito.size(); ++i)
+            {
+                cout << "Depósito [" << i << "] = " << listaDeDeposito[i] << " RS" << endl;
+            }
             cout << "Foi acrescentado " << quantidade_Deposito_Atualizado << "RS na conta!" << endl;
+            
+            //SALDO
             cout << "Seu saldo atual e de " << saldo << endl;
+
         }
         else if(opcao == 4)
         {
