@@ -1,99 +1,107 @@
-/*
-    Sistema Financeiro de registro de entrada e saída. 3 Pontos
-
-    Registro de Entrada.
-
-    Registro de Saída.
-
-    Total.
-
-    Categorias e Orçamento por categoria.
-*/
-//MELHORIAS:
-//REGISTRO DA ORDEM DA AÇÃO POR EXEMPLO, 
-//    SAQUE 1 VALOR:142R$, 
-//    DEPOSITO 1 VALOR 123R$
-//PODE SER FEITO UTILIZANDO LISTA
-
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-int main()
+class Conta
 {
-    int opcao;
-    double quantidade_Saque=0, saldo = 0, quantidade_Deposito =0;
-    double quantidade_Saque_Atualizado = 0, quantidade_Deposito_Atualizado = 0;
+private:
+    double saldo;
+    vector<double> listaSaque;
+    vector<double> listaDeposito;
 
-    //Registro de ação
-    std::vector<double> listaDeSaque;
-    std::vector<double> listaDeDeposito;
+public:
+    Conta() : saldo(0) {}
 
-    cout << "Bem-vindo ao sistema financeiro!!";
-
-    while (true)
+    void sacar(double valor)
     {
-        cout << "O que deseja fazer? \n[1]Sacar dinheiro \t[2]Depositar dinheiro \t[3]Ver o extrato: \t[>4]Sair" << endl;
-        cin >> opcao;
-        if (opcao == 1)
+        if (valor <= 0)
         {
-            if (saldo <= 0)
-            {
-                cout << "Não é possivel fazer o saque! Motivo -> Sem saldo!" << endl;
-                cout << "O que deseja fazer? \n[2]Depositar dinheiro \t[3]Ver o saldo: \t[>4]Sair" << endl;
-                cin >> opcao;
-            }
-            else
-            {
-                cout << "Digite a quantidade que deseja sacar: ";
-                cin >> quantidade_Saque;
-                saldo -= quantidade_Saque;
-                quantidade_Saque_Atualizado += quantidade_Saque;
-
-                listaDeSaque.push_back(quantidade_Saque);
-            }
+            cout << "Digite um valor maior que zero!" << endl;
         }
-        else if (opcao == 2)
+        else if (valor > saldo)
         {
-            cout << "Digite a quantidade que deseja depositar: ";
-            cin >> quantidade_Deposito;
-            saldo += quantidade_Deposito;
-            quantidade_Deposito_Atualizado += quantidade_Deposito;
-
-            listaDeDeposito.push_back(quantidade_Deposito);
-        }
-        else if (opcao == 3)
-        {
-            system("clear||cls");
-            //SAQUE
-            cout << "Extrato de Saques:" << endl;
-            for (size_t i = 0; i < listaDeSaque.size(); ++i)
-            {
-                cout << "Saque [" << i << "] = " << listaDeSaque[i] << " RS" << endl;
-            }
-            cout << "Foi retirado " << quantidade_Saque_Atualizado << "RS da conta!" << endl;
-            
-            //DEPOSITO
-            cout << "Extrato de Depósitos:" << endl;
-            for (size_t i = 0; i < listaDeDeposito.size(); ++i)
-            {
-                cout << "Depósito [" << i << "] = " << listaDeDeposito[i] << " RS" << endl;
-            }
-            cout << "Foi acrescentado " << quantidade_Deposito_Atualizado << "RS na conta!" << endl;
-            
-            //SALDO
-            cout << "Seu saldo atual e de " << saldo << endl;
-
-        }
-        else if(opcao == 4)
-        {
-            break;
+            cout << "Não é possível realizar o saque. Saldo insuficiente!" << endl;
         }
         else
         {
-            cout << "Nao foi possivel completar a acao, digite valores validos!";
+            saldo -= valor;
+            listaSaque.push_back(valor);
+            cout << "Saque realizado com sucesso!" << endl;
         }
     }
-    return 0;
+
+    void depositar(double valor)
+    {
+        if (valor <= 0)
+        {
+            cout << "Não é possível realizar depósito com valores abaixo ou iguais a zero!" << endl;
+        }
+        else
+        {
+            saldo += valor;
+            listaDeposito.push_back(valor);
+            cout << "Depósito realizado com sucesso!" << endl;
+        }
+    }
+
+    void mostrarExtrato()
+    {
+        // SAQUE
+        cout << "SAQUES:" << endl;
+        for (size_t i = 0; i < listaSaque.size(); i++)
+        {
+            cout << "Saque [" << i << "] valor = " << listaSaque[i] << endl;
+        }
+
+        // DEPOSITO
+        cout << "DEPÓSITOS:" << endl;
+        for (size_t i = 0; i < listaDeposito.size(); i++)
+        {
+            cout << "Depósito [" << i << "] valor = " << listaDeposito[i] << endl;
+        }
+        cout << "Saldo atual: " << saldo << endl;
+    }
+};
+
+int main()
+{
+    int opcao;
+    Conta conta;
+
+    cout << "Bem-vindo ao sistema financeiro!" << endl;
+
+    while (true)
+    {
+        cout << "O que deseja fazer? \n[1] Sacar dinheiro \t[2] Depositar dinheiro \t[3] Ver o extrato \t[4] Sair" << endl;
+        cin >> opcao;
+
+        double valor;
+        switch (opcao)
+        {
+        case 1:
+            cout << "Digite o valor que deseja sacar: " << endl;
+            cin >> valor;
+            conta.sacar(valor);
+            break;
+
+        case 2:
+            cout << "Digite a quantidade que deseja depositar: ";
+            cin >> valor;
+            conta.depositar(valor);
+            break;
+
+        case 3:
+            conta.mostrarExtrato();
+            break;
+
+        case 4:
+            cout << "Saindo do sistema. Até mais!" << endl;
+            return 0;
+
+        default:
+            cout << "Opção inválida. Por favor, digite um valor válido!" << endl;
+            break;
+        }
+    }
 }
