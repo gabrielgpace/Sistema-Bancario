@@ -1,17 +1,25 @@
-// Registro de Entrada: Registrar entradas financeiras, Ex: Salario, Jobs, etc...
-
-// Registro de Saída: Registrar saídas financeiras, Ex: Cinema, aluguel, etc...
-
-// Total: Mostrar o total
-
-// Categorias: Possibilidade de cadastrar as categorias Lazer, estudo, deslocamento, etc... 
-// Orçamento por categoria: Representa o teto, Lazer pode ser gasto até R$ 500.00 reais etc...
-
 //TODO:
-    //Categorias: Possibilidade de cadastrar as categorias Lazer, estudo, deslocamento, etc...
-        //OU CRIAR UMA STRUCT PARA ISSO OU ADICIONAR NO VETOR DOS TIPOS DE ENTRADA
-
     // Orçamento por categoria: Representa o teto, Lazer pode ser gasto até R$ 500.00 reais etc...
+
+//SUGESTAO DE COMO FAZER
+
+// struct TipoTransacao {
+//     string nome;
+//     double valor;
+//     TipoTransacao(string nome, double valor) : nome(nome), valor(valor) {}
+// };
+
+// class Conta {
+// private:
+//     double saldo;
+//     vector<TipoTransacao> transacoes;
+
+//int main() {
+// int opcao;
+// Conta conta;
+
+// vector<string> tiposEntrada = {"Salario", "Bico", "Emprestimo"};
+// vector<string> tiposSaida = {"Lazer", "Mercado", "Aluguel", "Agua", "Internet"};
 
 
 #include <iostream>
