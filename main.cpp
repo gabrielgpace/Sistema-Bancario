@@ -1,16 +1,67 @@
+// Registro de Entrada: Registrar entradas financeiras, Ex: Salario, Jobs, etc...
+
+// Registro de Saída: Registrar saídas financeiras, Ex: Cinema, aluguel, etc...
+
+// Total: Mostrar o total
+
+// Categorias: Possibilidade de cadastrar as categorias Lazer, estudo, deslocamento, etc... 
+// Orçamento por categoria: Representa o teto, Lazer pode ser gasto até R$ 500.00 reais etc...
+
+//TODO:
+    //Categorias: Possibilidade de cadastrar as categorias Lazer, estudo, deslocamento, etc...
+        //OU CRIAR UMA STRUCT PARA ISSO OU ADICIONAR NO VETOR DOS TIPOS DE ENTRADA
+
+    // Orçamento por categoria: Representa o teto, Lazer pode ser gasto até R$ 500.00 reais etc...
+
+
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
+struct Tipos
+{
+    vector <string> tiposEntrada = {"Salario", "Bico", "Emprestimo"};
+    vector <string> tiposSaida = {"Lazer", "Mercado", "Aluguel", "Agua", "Internet"};
+
+    vector <string> registroEntrada;
+    vector <string> registroSaida;
+
+    void Registrar(int indice)
+    {
+        if(indice < 0 || indice > tiposEntrada.size())
+        {
+            cout<< "Digite valores inteiros!" << endl;
+        }
+        else
+        {
+            registroEntrada.push_back(tiposEntrada[indice]);
+        }
+    }
+
+    void RegistrarSaida(int indice)
+    {
+        if(indice < 0 || indice > tiposEntrada.size())
+        {
+            cout<< "Digite valores inteiros!" << endl;
+        }
+        else
+        {
+            registroSaida.push_back(tiposSaida[indice]);
+        }
+
+    }
+};
+
+
 class Conta
 {
-private:
+public:
     double saldo;
     vector<double> listaSaque;
     vector<double> listaDeposito;
 
-public:
     Conta() : saldo(0) {}
 
     void sacar(double valor)
@@ -47,18 +98,20 @@ public:
 
     void mostrarExtrato()
     {
+        Tipos tipo;
+
         // SAQUE
         cout << "SAQUES:" << endl;
         for (size_t i = 0; i < listaSaque.size(); i++)
         {
-            cout << "Saque [" << i << "] valor = " << listaSaque[i] << endl;
+            cout << "Saque [" << i << "] valor = " << listaSaque[i] << "|| Tipo da saida: "<<tipo.tiposSaida[i] << endl;
         }
 
         // DEPOSITO
         cout << "DEPÓSITOS:" << endl;
         for (size_t i = 0; i < listaDeposito.size(); i++)
         {
-            cout << "Depósito [" << i << "] valor = " << listaDeposito[i] << endl;
+            cout << "Depósito [" << i << "] valor = " << listaDeposito[i] <<"|| Tipo da entrada: "<<tipo.tiposEntrada[i] << endl;
         }
         cout << "Saldo atual: " << saldo << endl;
     }
@@ -68,6 +121,9 @@ int main()
 {
     int opcao;
     Conta conta;
+    Tipos tipo;
+
+    int reg;
 
     cout << "Bem-vindo ao sistema financeiro!" << endl;
 
@@ -82,13 +138,22 @@ int main()
         case 1:
             cout << "Digite o valor que deseja sacar: " << endl;
             cin >> valor;
+
+            cout << "Qual foi o tipo de saída? 0- Lazer  1- Mercado  2- Aluguel  3- Internet" << endl;
+            cin >> reg; 
+            
             conta.sacar(valor);
+            tipo.RegistrarSaida(reg);
             break;
 
         case 2:
             cout << "Digite a quantidade que deseja depositar: ";
             cin >> valor;
             conta.depositar(valor);
+
+            cout << "Qual foi o tipo de entrada? 0- Salario  1- Bico  2- Emprestimo" << endl;
+            cin >> reg; 
+            tipo.RegistrarSaida(reg);
             break;
 
         case 3:
